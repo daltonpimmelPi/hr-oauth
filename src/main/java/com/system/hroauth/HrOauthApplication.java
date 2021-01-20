@@ -10,6 +10,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 public class HrOauthApplication {
 
+	//spring security
+	//UserDetailService é uma interface que usa para buscar o usuario pelo username do banco, retorna uma userDetail
+
+
 	public static void main(String[] args) {
 		SpringApplication.run(HrOauthApplication.class, args);
 	}

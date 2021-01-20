@@ -1,10 +1,16 @@
 package com.system.hroauth.entities;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-public class User implements Serializable {
+public class User implements UserDetails, Serializable {
 
     private Long id;
 
@@ -49,8 +55,40 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        //perfis dos usuarios baseado nos roles, configuração do spring security
+        return roles.stream().map(
+                x -> new SimpleGrantedAuthority(x.getRoleName())).collect(Collectors.toList());
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String senha) {
